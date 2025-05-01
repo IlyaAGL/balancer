@@ -1,0 +1,22 @@
+{
+    "port": "8080",
+    "healthCheckInterval": "5s",
+    "rateLimit": {
+      "enabled": true,
+      "defaultCapacity": 10,
+      "defaultRate": 5
+    },
+    "backends": [
+      {
+        "url": "http://localhost:9001",
+        "weight": 1,
+        "name": "backend-1"
+      },
+      {
+        "url": "http://localhost:9002",
+        "weight": 2,
+        "name": "backend-2"
+      }
+    ]
+  }
+  
