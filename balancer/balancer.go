@@ -2,6 +2,7 @@ package balancer
 
 import (
 	"container/heap"
+	"log"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -100,8 +101,12 @@ func (lb *LoadBalancer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
     if selectedServer == nil {
         http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
+        log.Println("No available backend servers")
+
         return
     }
+
+    log.Printf("Forwarding request to backend: %s", selectedServer.URL)
 
     selectedServer.proxy.ServeHTTP(w, r)
     heap.Push(lb.heap, selectedServer)

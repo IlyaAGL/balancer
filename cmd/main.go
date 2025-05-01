@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -15,7 +16,19 @@ import (
 )
 
 func main() {
-	cfg, err := loadConfig("config/config.json")
+	configPath := flag.String("config", "", "path to config file")
+	flag.Parse()
+
+	path := *configPath
+	if path == "" {
+		if envPath := os.Getenv("BACKEND_CONFIG"); envPath != "" {
+			path = envPath
+		} else {
+			path = "config/config.json"
+		}
+	}
+
+	cfg, err := loadConfig(path)
 	if err != nil {
 		log.Fatalf("Error loading config: %v", err)
 	}

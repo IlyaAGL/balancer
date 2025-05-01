@@ -1,0 +1,25 @@
+services:
+  balancer:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - BACKEND_CONFIG=/config/config.json
+    depends_on:
+      - backend1
+      - backend2
+
+  backend1:
+    image: nginx:alpine
+    container_name: backend-1
+    ports:
+      - "9001:80"
+
+  backend2:
+    image: nginx:alpine
+    container_name: backend-2
+    ports:
+      - "9002:80"
+
+volumes:
+  db_data:
